@@ -55,8 +55,6 @@ cd backend
 mvn spring-boot:run
 ```
 
-Backend URL: `http://localhost:8080`
-
 ### 4. Run Frontend
 
 Open another terminal:
@@ -66,9 +64,6 @@ cd frontend
 npm install
 npm run dev
 ```
-
-Frontend URL: `http://localhost:5173`
-
 
 ## Screenshots
 

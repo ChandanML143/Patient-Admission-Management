@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "https://YOUR-FRONTEND-URL.onrender.com"
+})
 @RestController
 @RequestMapping("/api/patients")
 public class PatientController {

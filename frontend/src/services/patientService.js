@@ -1,5 +1,5 @@
 
-const API_URL = "http://localhost:8080/api/patients";
+const API_URL = "https://patient-admission-management-qbsi.onrender.com/api/patients";
 
 export const getAllPatients = async () => {
     const response = await fetch(API_URL);
@@ -12,7 +12,7 @@ export const getAllPatients = async () => {
 };
 
 export async function addPatient(patient) {
-    const response = await fetch("http://localhost:8080/api/patients", {
+    fetch(`${API_URL}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

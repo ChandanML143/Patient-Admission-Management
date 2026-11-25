@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 
-const API = "http://localhost:8080/api";
+const API = "https://patient-admission-management-qbsi.onrender.com/api";
 
 function PatientList() {
     const [patients, setPatients] = useState([]);
