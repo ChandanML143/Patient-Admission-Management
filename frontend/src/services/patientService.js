@@ -1,6 +1,7 @@
 
 const API_URL = "https://patient-admission-management-qbsi.onrender.com/api/patients";
 
+// Get all patients
 export const getAllPatients = async () => {
     const response = await fetch(API_URL);
 
@@ -8,11 +9,12 @@ export const getAllPatients = async () => {
         throw new Error("Failed to fetch patients");
     }
 
-    return response.json();
+    return await response.json();
 };
 
+// Add a new patient
 export async function addPatient(patient) {
-    fetch(`${API_URL}`, {
+    const response = await fetch(API_URL, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -21,11 +23,18 @@ export async function addPatient(patient) {
     });
 
     if (!response.ok) {
-        const errorData = await response.json();
+        const errorText = await response.text();
 
-        throw new Error(
-            errorData.message || "Failed to register patient"
-        );
+        let errorMessage = "Failed to register patient";
+
+        try {
+            const errorData = JSON.parse(errorText);
+            errorMessage = errorData.message || errorData.error || errorMessage;
+        } catch {
+            if (errorText) errorMessage = errorText;
+        }
+
+        throw new Error(errorMessage);
     }
 
     return await response.json();
