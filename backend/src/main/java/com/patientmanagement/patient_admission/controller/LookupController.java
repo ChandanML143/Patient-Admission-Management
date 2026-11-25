@@ -10,7 +10,7 @@ import java.util.List;
 
 @CrossOrigin(origins = {
         "http://localhost:5173",
-        "https://YOUR-FRONTEND-URL.onrender.com"
+        "https://patient-admission-management-1.onrender.com"
 })
 @RestController
 @RequestMapping("/api")
