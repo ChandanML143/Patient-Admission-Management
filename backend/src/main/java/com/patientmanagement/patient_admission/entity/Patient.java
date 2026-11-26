@@ -44,7 +44,6 @@ public class Patient {
     public Patient() {
     }
 
-    // Getters and Setters
 
     public Integer getId() {
         return id;

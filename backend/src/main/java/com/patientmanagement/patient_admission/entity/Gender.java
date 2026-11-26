@@ -14,11 +14,9 @@ public class Gender {
     @Column(nullable = false, unique = true)
     private String name;
 
-    // Default constructor
     public Gender() {
     }
 
-    // Getters and Setters
     public Integer getId() {
         return id;
     }
