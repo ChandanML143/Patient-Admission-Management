@@ -3,40 +3,27 @@ import { useEffect, useState } from "react";
 
 const API = "https://patient-admission-management-qbsi.onrender.com/api";
 
-function Dashboard() {
-    const [patients, setPatients] = useState([]);
+function Dashboard({ patients }) {
     const [totalWards, setTotalWards] = useState(0);
 
     useEffect(() => {
-        fetchDashboardData();
+        const fetchWards = async () => {
+            try {
+                const response = await fetch(`${API}/wards`);
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch wards");
+                }
+
+                const data = await response.json();
+                setTotalWards(data.length);
+            } catch (error) {
+                console.error("Ward fetching error:", error);
+            }
+        };
+
+        fetchWards();
     }, []);
-
-    const fetchDashboardData = async () => {
-        try {
-            // Fetch all patients
-            const patientResponse = await fetch(`${API}/patients`);
-
-            if (!patientResponse.ok) {
-                throw new Error("Failed to fetch patients");
-            }
-
-            const patientData = await patientResponse.json();
-            setPatients(patientData);
-
-            // Fetch all wards
-            const wardResponse = await fetch(`${API}/wards`);
-
-            if (!wardResponse.ok) {
-                throw new Error("Failed to fetch wards");
-            }
-
-            const wardData = await wardResponse.json();
-            setTotalWards(wardData.length);
-
-        } catch (error) {
-            console.error("Dashboard error:", error);
-        }
-    };
 
     const totalPatients = patients.length;
 
@@ -50,19 +37,14 @@ function Dashboard() {
 
     return (
         <div className="dashboard">
-
-            {/* Dashboard Heading */}
             <div className="dashboard-header">
                 <div>
                     <h2>Dashboard Overview</h2>
                     <p>Welcome to PatientCare Management System</p>
                 </div>
-
             </div>
 
-            {/* Statistics Cards */}
             <div className="stats-container">
-
                 <div className="stat-card">
                     <h3>Total Patients</h3>
                     <h2>{totalPatients}</h2>
@@ -82,9 +64,7 @@ function Dashboard() {
                     <h3>Total Wards</h3>
                     <h2>{totalWards}</h2>
                 </div>
-
             </div>
-
         </div>
     );
 }

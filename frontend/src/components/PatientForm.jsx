@@ -1,8 +1,8 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { addPatient } from "../services/patientService";
 
-function PatientForm() {
+function PatientForm({ onPatientAdded }) {
 
     const [formData, setFormData] = useState({
         name: "",
@@ -17,6 +17,16 @@ function PatientForm() {
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (!message) return;
+
+        const timer = setTimeout(() => {
+            setMessage("");
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, [message]);
 
     function handleChange(event) {
         const { name, value } = event.target;
@@ -46,6 +56,10 @@ function PatientForm() {
             setLoading(true);
 
             await addPatient(patient);
+
+            if (onPatientAdded) {
+                await onPatientAdded();
+            }
 
             setMessage("Patient registered successfully!");
 
@@ -122,6 +136,8 @@ function PatientForm() {
                         <option value="1">General Ward</option>
                         <option value="2">ICU</option>
                         <option value="3">Private Ward</option>
+                        <option value="4">Emergency Ward</option>
+                        <option value="5">Pediatric Ward</option>
                     </select>
                 </div>
 
@@ -133,6 +149,9 @@ function PatientForm() {
                         <option value="1">Cardiology</option>
                         <option value="2">Neurology</option>
                         <option value="3">Orthopedics</option>
+                        <option value="4">General Medicine</option>
+                        <option value="5">Dermatology</option>
+                        <option value="6">Pediatrics</option>
                     </select>
                 </div>
 
@@ -144,6 +163,8 @@ function PatientForm() {
                         <option value="1">Dr. Arun Kumar</option>
                         <option value="2">Dr. Priya Sharma</option>
                         <option value="3">Dr. Rahul Verma</option>
+                        <option value="4">Dr. Kiran Kumar</option>
+                        <option value="5">Dr. Sneha Rao</option>
                     </select>
                 </div>
 

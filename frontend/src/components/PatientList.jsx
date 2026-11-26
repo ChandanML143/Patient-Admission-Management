@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 
 const API = "https://patient-admission-management-qbsi.onrender.com/api";
 
-function PatientList() {
-    const [patients, setPatients] = useState([]);
-    const [loading, setLoading] = useState(true);
+function PatientList({ patients, setPatients, onPatientsChanged }) {
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
@@ -38,14 +37,7 @@ function PatientList() {
             setLoading(true);
             setError("");
 
-            const response = await fetch(`${API}/patients`);
-
-            if (!response.ok) {
-                throw new Error("Failed to fetch patients");
-            }
-
-            const data = await response.json();
-            setPatients(data);
+            await onPatientsChanged();
 
         } catch (err) {
             setError(err.message);
@@ -92,7 +84,6 @@ function PatientList() {
     };
 
     useEffect(() => {
-        fetchPatients();
         fetchDropdownData();
     }, []);
 
@@ -182,6 +173,9 @@ function PatientList() {
             }
 
             setSuccess("Patient updated successfully!");
+            setTimeout(() => {
+                setSuccess("");
+            }, 3000);
 
             await fetchPatients();
 
@@ -224,7 +218,11 @@ function PatientList() {
             }
 
             setSuccess("Patient deleted successfully!");
-                    // Close details modal if the deleted patient is selected
+            setTimeout(() => {
+                setSuccess("");
+            }, 3000);
+
+            // Close details modal if the deleted patient is selected
             if (selectedPatient?.id === patient.id) {
                 setSelectedPatient(null);
             }
@@ -262,6 +260,9 @@ function PatientList() {
             }
 
             setSuccess("Patient discharged successfully!");
+            setTimeout(() => {
+                setSuccess("");
+            }, 3000);
 
             await fetchPatients();
 
